@@ -62,7 +62,7 @@ export default function Home() {
             as="div"
             style={{ position: 'relative' }}
           >
-            <Card variant="outlined" sx={{ cursor: 'grab' }}>
+            <Card variant="outlined" sx={{ cursor: 'grab' , '&:active': { cursor: 'grabbing' } }}>
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: '12px !important' }}>
                 <DragHandleIcon color="action"/>
                 <Typography variant="body1">{item.name}</Typography>
