@@ -27,6 +27,10 @@ export default function Home() {
     setShuffledItems(shuffled);
   }, [items]);
 
+  const isItemInCorrectPosition = (item: DatasetItem, index: number): boolean => {
+    return items[index]?.name === item.name;
+  };
+
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4, px: 2 }}>
 
@@ -56,23 +60,34 @@ export default function Home() {
         onReorder={setShuffledItems}
         style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
       >
-        {shuffledItems.map((item) => (
-          <Reorder.Item
-            key={item.name}
-            value={item}
-            as="div"
-            style={{ position: 'relative' }}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={() => setIsDragging(false)}
-          >
-            <Card variant="outlined" sx={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
-              <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: '12px !important' }}>
-                <DragHandleIcon color="action"/>
-                <Typography variant="body1">{item.name}</Typography>
-              </CardContent>
-            </Card>
-          </Reorder.Item>
-        ))}
+        {shuffledItems.map((item, index) => {
+          const isCorrect = isItemInCorrectPosition(item, index);
+          return (
+            <Reorder.Item
+              key={item.name}
+              value={item}
+              as="div"
+              style={{ position: 'relative' }}
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={() => setIsDragging(false)}
+            >
+              <Card 
+                variant="outlined" 
+                sx={{ 
+                  cursor: isDragging ? 'grabbing' : 'grab',
+                  backgroundColor: isCorrect ? '#cae3cb' : '#ffcdd2',
+                  borderColor: isCorrect ? '#4caf50' : '#f44336',
+                  borderWidth: 2
+                }}
+              >
+                <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: '12px !important' }}>
+                  <DragHandleIcon color="action"/>
+                  <Typography variant="body1">{item.name}</Typography>
+                </CardContent>
+              </Card>
+            </Reorder.Item>
+          );
+        })}
       </Reorder.Group>
     </Box>
   );
